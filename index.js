@@ -28,11 +28,11 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date?", function (req, res) {
   let dateParam = req.params.date;
   let date;
-  // If dateParam is empty, use current date
-  if (!dateParam) {
+  // If dateParam is undefined or empty string, use current date
+  if (dateParam === undefined || dateParam === "") {
     date = new Date();
-  } else if (!isNaN(dateParam)) {
-    // If it's a number, treat it as a timestamp
+  } else if (!isNaN(dateParam) && /^\d+$/.test(dateParam)) {
+    // If it's a number (all digits), treat it as a timestamp
     date = new Date(parseInt(dateParam));
   } else {
     // Otherwise, treat it as a date string
