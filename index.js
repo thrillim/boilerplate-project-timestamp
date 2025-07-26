@@ -28,21 +28,21 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date", function (req, res) {
   let dateParam = req.params.date;
   let date;
-
-  // Check if the date is a valid timestamp or yyyy-mm-dd format
-  if (!isNaN(dateParam)) {
+  // If dateParam is empty, use current date
+  if (!dateParam) {
+    date = new Date();
+  } else if (!isNaN(dateParam)) {
     // If it's a number, treat it as a timestamp
     date = new Date(parseInt(dateParam));
   } else {
     // Otherwise, treat it as a date string
     date = new Date(dateParam);
   }
-  
+
   // If the date is invalid, return an error
   if (isNaN(date.getTime())) {
     return res.json({ error: "Invalid Date" });
   }
-
   // Return the date in the specified format
   res.json({
     unix: date.getTime(),
